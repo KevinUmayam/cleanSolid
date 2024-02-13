@@ -23,26 +23,19 @@
     }
 
     interface UserProps {
-        birthdate : Date;
         email     : string;
-        gender    : Gender;
-        name      : string;
         role      : string;
     }
 
-    class User extends Person {
+    class User  {
         public email: string; 
         public role: string;
         public lastAccess: Date;
 
         constructor({
-            birthdate,
             email,
-            gender, 
-            name, 
-            role,
+            role
         }: UserProps){
-            super({name, gender, birthdate});
             this.lastAccess = new Date();
             this.email      = email;
             this.role       = role;
@@ -52,7 +45,24 @@
         }
     }
     
-    interface UserSettingsProps {
+    interface SettingsProps {
+        lastOpenFolder     : string;
+        workingDirectory   : string;
+    }
+    class Settings {
+        public workingDirectory: string;
+        public lastOpenFolder  : string; 
+
+        constructor({         
+            lastOpenFolder,             
+            workingDirectory,
+        }:SettingsProps){
+            this.lastOpenFolder = lastOpenFolder;
+            this.workingDirectory = workingDirectory;
+        }
+    }
+
+     interface UserSettingsProps {
         birthdate          : Date;
         email              : string;
         gender             : Gender;
@@ -61,10 +71,13 @@
         role               : string;
         workingDirectory   : string;
     }
-    class UserSettings extends User {
-        public workingDirectory: string;
-        public lastOpenFolder  : string; 
 
+    class UserSettings {
+
+        public person : Person;
+        public user : User;
+        public settings : Settings;
+        
         constructor({
             birthdate,    
             email,            
@@ -74,13 +87,13 @@
             role,             
             workingDirectory,
         }:UserSettingsProps){
-            super({email, role,  name, gender, birthdate})
-            this.lastOpenFolder = lastOpenFolder;
-            this.workingDirectory = workingDirectory;
+            this.person = new Person({birthdate,gender,name});
+            this.user = new User({email,role});
+            this.settings = new Settings({lastOpenFolder,workingDirectory});
         }
     }
 
-    const userSettings = new UserSettings ({
+        const userSettings = new UserSettings ({
         birthdate          : new Date('1998-09-06'),
         email              : 'kevin@gmail.com',
         gender             :  'M',
