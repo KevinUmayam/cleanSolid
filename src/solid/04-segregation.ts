@@ -1,6 +1,5 @@
 
 interface Bird {
-    fly(): number;
     eat(): void;
 
 }
